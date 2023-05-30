@@ -1,25 +1,29 @@
 #!/bin/bash
 
+
 sudo rm /etc/containerd/config.toml
 sudo systemctl restart containerd
 sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 
-kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml --kubeconfig /etc/kubernetes/admin.conf
-kubectl create -f https://docs.projectcalico.org/manifests/custom-resources.yaml --kubeconfig /etc/kubernetes/admin.conf
+mkdir -p /home/azureuser/.kube
+sudo cp -i /etc/kubernetes/admin.conf /home/azureuser/.kube/config
+sudo chown azureuser:azureuser /home/azureuser/.kube/config
+
+echo "Install Calico"
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.0/manifests/tigera-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.0/manifests/custom-resources.yaml
 
 sleep 30
 
-kubectl taint nodes --all node-role.kubernetes.io/master- --kubeconfig /etc/kubernetes/admin.conf
-kubectl taint nodes --all node-role.kubernetes.io/control-plane- --kubeconfig /etc/kubernetes/admin.conf
+echo "Remove Taints on master node"
+kubectl taint nodes --all node-role.kubernetes.io/master- 
+kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+
+
 
 wget https://raw.githubusercontent.com/shashankbarsin/proxy-simulation/main/manifests/simulation.yaml
 
 perl -i -pe "s/<SQUID_NOAUTH_IP>/$(echo -n $SQUID_NOAUTH_IP)/g" simulation.yaml
-perl -i -pe "s/<SQUID_BASIC_IP>/$(echo -n $SQUID_BASIC_IP)/g" simulation.yaml
-perl -i -pe "s/<SQUID_CERT_IP>/$(echo -n $SQUID_CERT_IP)/g" simulation.yaml
 
 kubectl apply -f simulation.yaml --kubeconfig /etc/kubernetes/admin.conf
 
-mkdir -p /home/azureuser/.kube
-sudo cp /etc/kubernetes/admin.conf /home/azureuser/.kube/config
-sudo chown azureuser:azureuser /home/azureuser/.kube/config
