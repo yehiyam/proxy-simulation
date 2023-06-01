@@ -15,15 +15,3 @@ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.0
 
 sleep 30
 
-echo "Remove Taints on master node"
-kubectl taint nodes --all node-role.kubernetes.io/master- 
-kubectl taint nodes --all node-role.kubernetes.io/control-plane-
-
-
-
-wget https://raw.githubusercontent.com/shashankbarsin/proxy-simulation/main/manifests/simulation.yaml
-
-perl -i -pe "s/<SQUID_NOAUTH_IP>/$(echo -n $SQUID_NOAUTH_IP)/g" simulation.yaml
-
-kubectl apply -f simulation.yaml --kubeconfig /etc/kubernetes/admin.conf
-
