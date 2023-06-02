@@ -20,11 +20,6 @@ mkdir -p /home/azureuser/.kube
 sudo cp -i /etc/kubernetes/admin.conf /home/azureuser/.kube/config
 sudo chown azureuser:azureuser /home/azureuser/.kube/config
 
-echo "Install Calico"
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.0/manifests/tigera-operator.yaml
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.0/manifests/custom-resources.yaml
-
-sleep 30
 
 echo "Install Utils"
 # Install Azure CLI
@@ -54,3 +49,6 @@ echo "install helm"
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
+
+# apply simulation.yaml
+kubectl apply -f /home/azureuser/simulation.yaml
