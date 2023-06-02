@@ -10,12 +10,8 @@ bash <(curl -s https://raw.githubusercontent.com/killer-sh/cks-course-environmen
 echo "Remove Taints on master node"
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 
-echo "Donwload simulation.yaml"
-wget https://raw.githubusercontent.com/shashankbarsin/proxy-simulation/main/manifests/simulation.yaml
-perl -i -pe "s/<SQUID_NOAUTH_IP>/$(echo -n $SQUID_NOAUTH_IP)/g" simulation.yaml
-cp simulation.yaml /home/azureuser/simulation.yaml
 
-echo "Install Calico"
+echo "Patch Kube config"
 mkdir -p /home/azureuser/.kube
 sudo cp -i /etc/kubernetes/admin.conf /home/azureuser/.kube/config
 sudo chown azureuser:azureuser /home/azureuser/.kube/config
@@ -51,4 +47,8 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 
 # apply simulation.yaml
-kubectl apply -f /home/azureuser/simulation.yaml
+echo "Donwload simulation.yaml"
+wget https://raw.githubusercontent.com/shashankbarsin/proxy-simulation/main/manifests/simulation.yaml
+perl -i -pe "s/<SQUID_NOAUTH_IP>/$(echo -n $SQUID_NOAUTH_IP)/g" simulation.yaml
+cp simulation.yaml /home/azureuser/simulation.yaml
+#kubectl apply -f /home/azureuser/simulation.yaml
