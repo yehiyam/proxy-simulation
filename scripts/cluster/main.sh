@@ -61,8 +61,13 @@ echo "Install Ingress Nginx Controller"
 kubectl apply -f https://raw.githubusercontent.com/tshaiman/proxy-simulation/main/manifests/ingress-ngxin-baremetal.yaml
 ###############################
 
-
 ###############################
+echo "Install Local-Path Provisioner and set it as default"
+############################### 
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.24/deploy/local-path-storage.yaml
+kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+
+############################### 
 echo "apply Network Policy"
 ###############################
 echo "Donwload simulation.yaml"
