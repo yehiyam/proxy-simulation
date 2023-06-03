@@ -9,6 +9,6 @@ tar xvzf squid-5.9.tar.gz
 cd squid-5.9
 ./configure --with-openssl  --enable-ssl-crtd
 sudo make && sudo make install
-sudo rm /usr/local/squid/etc/squid.conf && sudo cp ./squid-noauth.conf /usr/local/squid/etc/squid.conf
+sudo mv ./squid-noauth.conf /usr/local/squid/etc/squid.conf
 sudo chmod 777 /usr/local/squid/var/logs
 sudo /usr/local/squid/sbin/squid start
