@@ -19,7 +19,16 @@ sudo chown azureuser:azureuser /home/azureuser/.kube/config
 #################################################
 echo "Install Utils"
 ################################################
+
+###############################
+echo "patch kubectl aliases"
+###############################
+wget https://raw.githubusercontent.com/tshaiman/proxy-simulation/main/scripts/config/bash_aliases
+echo ./bassh_aliases | tee ~/.bash_aliases
+
+###############################
 # Install Azure CLI
+###############################
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg
 
@@ -46,10 +55,6 @@ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scr
 chmod 700 get_helm.sh
 ./get_helm.sh
 
-###############################
-echo "patch kubectl aliases"
-###############################
-wget https://raw.githubusercontent.com/tshaiman/proxy-simulation/main/config/bash_aliases
 
 ###############################
 echo "Install Ingress Nginx Controller"
