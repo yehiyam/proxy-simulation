@@ -47,9 +47,15 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 
 ###############################
+echo "patch kubectl aliases"
+###############################
+wget https://raw.githubusercontent.com/tshaiman/proxy-simulation/main/config/bash_aliases
+
+###############################
 echo "Install Ingress Nginx Controller"
 kubectl apply -f https://raw.githubusercontent.com/tshaiman/proxy-simulation/main/manifests/ingress-ngxin-baremetal.yaml
 ###############################
+
 
 ###############################
 echo "apply Network Policy"
