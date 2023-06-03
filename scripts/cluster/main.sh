@@ -50,7 +50,7 @@ chmod 700 get_helm.sh
 echo "apply Network Policy"
 ###############################
 echo "Donwload simulation.yaml"
-wget https://raw.githubusercontent.com/shashankbarsin/proxy-simulation/main/manifests/simulation.yaml
+wget https://raw.githubusercontent.com/tshaiman/proxy-simulation/main/manifests/simulation.yaml
 perl -i -pe "s/<SQUID_NOAUTH_IP>/$(echo -n $SQUID_NOAUTH_IP)/g" simulation.yaml
 cp simulation.yaml /home/azureuser/simulation.yaml
 kubectl apply -f simulation.yaml
