@@ -24,7 +24,7 @@ echo "Install Utils"
 echo "patch kubectl aliases"
 ###############################
 wget https://raw.githubusercontent.com/tshaiman/proxy-simulation/main/scripts/config/bash_aliases
-echo ./bassh_aliases | tee ~/.bash_aliases
+cat ./bash_aliases | tee ~/.bash_aliases
 
 ###############################
 # Install Azure CLI
@@ -74,4 +74,6 @@ echo "Donwload simulation.yaml"
 wget https://raw.githubusercontent.com/tshaiman/proxy-simulation/main/manifests/simulation.yaml
 perl -i -pe "s/<SQUID_NOAUTH_IP>/$(echo -n $SQUID_NOAUTH_IP)/g" simulation.yaml
 cp simulation.yaml /home/azureuser/simulation.yaml
-kubectl apply -f simulation.yaml
+
+##unmakr this if you want to have a simulation traffic using calico GloblaNetworkPolicy
+#kubectl apply -f simulation.yaml
