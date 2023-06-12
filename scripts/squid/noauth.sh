@@ -18,6 +18,6 @@ echo "Deploy Squid Proxy Server"
 echo "new Squid installation Process "
 
 
-sudo apt update && sudo apt upgrade -y && sudo apt install squid
+sudo apt update && sudo apt upgrade -y && sudo apt install squid -y
 sudo cp ./squid-noauth.conf /etc/squid/squid.conf
 sudo systemctl restart squid.service
